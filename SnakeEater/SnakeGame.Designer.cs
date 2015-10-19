@@ -47,9 +47,9 @@
             this.ToolStripMenu_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenu_UpdLog = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenu_About = new System.Windows.Forms.ToolStripMenuItem();
-            this.tmrSpeedCtrl = new System.Windows.Forms.Timer(this.components);
-            this.tmrForward = new System.Windows.Forms.Timer(this.components);
-            this.tmrCostTime = new System.Windows.Forms.Timer(this.components);
+            this.tmrSpeedCtrl = new SnakeEater.MyControl.UTimer(this.components);
+            this.tmrForward = new SnakeEater.MyControl.UTimer(this.components);
+            this.tmrCostTime = new SnakeEater.MyControl.UTimer(this.components);
             this.grpInfo.SuspendLayout();
             this.pnlGameZone.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxGameZone)).BeginInit();
@@ -73,7 +73,7 @@
             // txtScore
             // 
             this.txtScore.Enabled = false;
-            this.txtScore.Location = new System.Drawing.Point(409, 17);
+            this.txtScore.Location = new System.Drawing.Point(411, 17);
             this.txtScore.Name = "txtScore";
             this.txtScore.ReadOnly = true;
             this.txtScore.Size = new System.Drawing.Size(124, 21);
@@ -84,16 +84,16 @@
             // lblScore
             // 
             this.lblScore.AutoSize = true;
-            this.lblScore.Location = new System.Drawing.Point(374, 21);
+            this.lblScore.Location = new System.Drawing.Point(370, 21);
             this.lblScore.Name = "lblScore";
-            this.lblScore.Size = new System.Drawing.Size(29, 12);
+            this.lblScore.Size = new System.Drawing.Size(35, 12);
             this.lblScore.TabIndex = 0;
-            this.lblScore.Text = "得分";
+            this.lblScore.Text = "Score";
             // 
             // txtFoodCount
             // 
             this.txtFoodCount.Enabled = false;
-            this.txtFoodCount.Location = new System.Drawing.Point(289, 17);
+            this.txtFoodCount.Location = new System.Drawing.Point(285, 17);
             this.txtFoodCount.Name = "txtFoodCount";
             this.txtFoodCount.ReadOnly = true;
             this.txtFoodCount.Size = new System.Drawing.Size(79, 21);
@@ -104,11 +104,11 @@
             // lblFoodCount
             // 
             this.lblFoodCount.AutoSize = true;
-            this.lblFoodCount.Location = new System.Drawing.Point(218, 21);
+            this.lblFoodCount.Location = new System.Drawing.Point(208, 21);
             this.lblFoodCount.Name = "lblFoodCount";
-            this.lblFoodCount.Size = new System.Drawing.Size(65, 12);
+            this.lblFoodCount.Size = new System.Drawing.Size(71, 12);
             this.lblFoodCount.TabIndex = 0;
-            this.lblFoodCount.Text = "吃到食物数";
+            this.lblFoodCount.Text = "Foods Eaten";
             // 
             // txtTime
             // 
@@ -116,7 +116,7 @@
             this.txtTime.Location = new System.Drawing.Point(41, 17);
             this.txtTime.Name = "txtTime";
             this.txtTime.ReadOnly = true;
-            this.txtTime.Size = new System.Drawing.Size(171, 21);
+            this.txtTime.Size = new System.Drawing.Size(161, 21);
             this.txtTime.TabIndex = 1;
             this.txtTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -127,7 +127,7 @@
             this.lblTime.Name = "lblTime";
             this.lblTime.Size = new System.Drawing.Size(29, 12);
             this.lblTime.TabIndex = 0;
-            this.lblTime.Text = "计时";
+            this.lblTime.Text = "Time";
             // 
             // pnlGameZone
             // 
@@ -170,37 +170,38 @@
             this.toolStripMenu_Game.Name = "toolStripMenu_Game";
             this.toolStripMenu_Game.ShortcutKeyDisplayString = "";
             this.toolStripMenu_Game.ShowShortcutKeys = false;
-            this.toolStripMenu_Game.Size = new System.Drawing.Size(61, 21);
-            this.toolStripMenu_Game.Text = "游戏(&G)";
+            this.toolStripMenu_Game.Size = new System.Drawing.Size(71, 21);
+            this.toolStripMenu_Game.Text = "Game(&G)";
             // 
             // toolStripMenu_NewGame
             // 
             this.toolStripMenu_NewGame.Name = "toolStripMenu_NewGame";
             this.toolStripMenu_NewGame.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.toolStripMenu_NewGame.Size = new System.Drawing.Size(183, 22);
-            this.toolStripMenu_NewGame.Text = "开始新游戏";
+            this.toolStripMenu_NewGame.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenu_NewGame.Text = "Start a new Game";
             this.toolStripMenu_NewGame.Click += new System.EventHandler(this.toolStripMenu_NewGame_Click);
             // 
             // toolStripMenu_Pause
             // 
+            this.toolStripMenu_Pause.Enabled = false;
             this.toolStripMenu_Pause.Name = "toolStripMenu_Pause";
-            this.toolStripMenu_Pause.Size = new System.Drawing.Size(183, 22);
-            this.toolStripMenu_Pause.Text = "开始";
+            this.toolStripMenu_Pause.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenu_Pause.Text = "Play";
             this.toolStripMenu_Pause.Click += new System.EventHandler(this.toolStripMenu_Pause_Click);
             // 
             // toolStripMenu_Save
             // 
             this.toolStripMenu_Save.Name = "toolStripMenu_Save";
             this.toolStripMenu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.toolStripMenu_Save.Size = new System.Drawing.Size(183, 22);
-            this.toolStripMenu_Save.Text = "保存";
+            this.toolStripMenu_Save.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenu_Save.Text = "Save";
             this.toolStripMenu_Save.Click += new System.EventHandler(this.toolStripMenu_Save_Click);
             // 
             // toolStripMenu_Exit
             // 
             this.toolStripMenu_Exit.Name = "toolStripMenu_Exit";
-            this.toolStripMenu_Exit.Size = new System.Drawing.Size(183, 22);
-            this.toolStripMenu_Exit.Text = "退出";
+            this.toolStripMenu_Exit.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenu_Exit.Text = "Exit";
             this.toolStripMenu_Exit.Click += new System.EventHandler(this.toolStripMenu_Exit_Click);
             // 
             // ToolStripMenu_Help
@@ -209,25 +210,26 @@
             this.toolStripMenu_UpdLog,
             this.toolStripMenu_About});
             this.ToolStripMenu_Help.Name = "ToolStripMenu_Help";
-            this.ToolStripMenu_Help.Size = new System.Drawing.Size(61, 21);
-            this.ToolStripMenu_Help.Text = "帮助(&H)";
+            this.ToolStripMenu_Help.Size = new System.Drawing.Size(64, 21);
+            this.ToolStripMenu_Help.Text = "Help(&H)";
             // 
             // toolStripMenu_UpdLog
             // 
             this.toolStripMenu_UpdLog.Name = "toolStripMenu_UpdLog";
-            this.toolStripMenu_UpdLog.Size = new System.Drawing.Size(124, 22);
-            this.toolStripMenu_UpdLog.Text = "更新日志";
+            this.toolStripMenu_UpdLog.Size = new System.Drawing.Size(227, 22);
+            this.toolStripMenu_UpdLog.Text = "Update Log";
             // 
             // toolStripMenu_About
             // 
             this.toolStripMenu_About.Name = "toolStripMenu_About";
             this.toolStripMenu_About.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.toolStripMenu_About.Size = new System.Drawing.Size(124, 22);
-            this.toolStripMenu_About.Text = "关于";
+            this.toolStripMenu_About.Size = new System.Drawing.Size(227, 22);
+            this.toolStripMenu_About.Text = "About My Snake Eater";
+            this.toolStripMenu_About.Click += new System.EventHandler(this.toolStripMenu_About_Click);
             // 
             // tmrSpeedCtrl
             // 
-            this.tmrSpeedCtrl.Interval = 120000;
+            this.tmrSpeedCtrl.Interval = 30000;
             this.tmrSpeedCtrl.Tick += new System.EventHandler(this.TmrSpeedCtrl_Tick);
             // 
             // tmrForward
@@ -252,7 +254,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SnakeGame";
-            this.Text = "我的贪吃蛇";
+            this.Text = "My Snake Eater";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SnakeGame_KeyDown);
             this.grpInfo.ResumeLayout(false);
             this.grpInfo.PerformLayout();
@@ -284,10 +286,10 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenu_Help;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenu_UpdLog;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenu_About;
-        private System.Windows.Forms.Timer tmrSpeedCtrl;
-        private System.Windows.Forms.Timer tmrForward;
+        private MyControl.UTimer tmrSpeedCtrl;
+        private MyControl.UTimer tmrForward;
         private System.Windows.Forms.PictureBox pboxGameZone;
-        private System.Windows.Forms.Timer tmrCostTime;
+        private MyControl.UTimer tmrCostTime;
 
     }
 }

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Consts.cs" />
     <Compile Include="MyControl\UTimer.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -52,6 +53,10 @@
     </Compile>
     <Compile Include="SnakeGame.Designer.cs">
       <DependentUpon>SnakeGame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SnakeGame.Menu.cs">
+      <DependentUpon>SnakeGame.cs</DependentUpon>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Model\Dot.cs" />
     <Compile Include="Model\Snake.cs" />
