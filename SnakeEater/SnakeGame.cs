@@ -1,4 +1,5 @@
-﻿using SnakeEater.Model;
+﻿using SnakeEater.Common;
+using SnakeEater.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,35 +12,16 @@ using System.Windows.Forms;
 
 namespace SnakeEater
 {
+    /// <summary>
+    /// My Snake Eater Game.
+    /// </summary>
     public partial class SnakeGame : Form
     {
-        #region Consts
-        /// <summary>
-        /// The max x position of snake or food.
-        /// </summary>
-        public const int MAX_X = 64;
-
-        /// <summary>
-        /// The max y position of snake or food.
-        /// </summary>
-        public const int MAX_Y = 40;
-        #endregion
-
         #region Properties
-        /// <summary>
-        /// The time that the game has being on.
-        /// </summary>
-        private TimeSpan ellaspedTime;
-
         /// <summary>
         /// The number of foods that are eaten.
         /// </summary>
         private int foodCount;
-
-        /// <summary>
-        /// Game is paused or not.
-        /// </summary>
-        private bool isGamePaused;
 
         /// <summary>
         /// Current hard level.
@@ -49,7 +31,7 @@ namespace SnakeEater
         /// <summary>
         /// The array of the interval for each level.
         /// </summary>
-        private int[] lvInterval = { 300, 250, 200, 150, 100 };
+        private int[] lvInterval = { 300, 250, 200, 150, 100, 80, 50 };
 
         /// <summary>
         /// Total scores.
@@ -59,7 +41,7 @@ namespace SnakeEater
         /// <summary>
         /// The array of the scores for each level.
         /// </summary>
-        private int[] scorePerFood = { 10, 12, 16, 25, 50 };
+        private int[] scorePerFood = { 10, 12, 16, 25, 50, 80, 100 };
 
         /// <summary>
         /// The food.
@@ -105,70 +87,7 @@ namespace SnakeEater
         }
         #endregion
 
-        #region Event
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SnakeGame_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (this.snake == null)
-            {
-                return;
-            }
-
-            switch (e.KeyCode)
-            {
-                case Keys.W:
-                case Keys.Up:
-                    if (this.snake.Direction != Direction.Down)
-                    {
-                        this.snake.Direction = Direction.UP;
-                    }
-                    break;
-                case Keys.A:
-                case Keys.Left:
-                    if (this.snake.Direction != Direction.Right)
-                    {
-                        this.snake.Direction = Direction.Left;
-                    }
-                    break;
-                case Keys.S:
-                case Keys.Down:
-                    if (this.snake.Direction != Direction.UP)
-                    {
-                        this.snake.Direction = Direction.Down;
-                    }
-                    break;
-                case Keys.D:
-                case Keys.Right:
-                    if (this.snake.Direction != Direction.Left)
-                    {
-                        this.snake.Direction = Direction.Right;
-                    }
-                    break;
-                case Keys.Space:
-                    this.Pause();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void toolStripMenu_NewGame_Click(object sender, EventArgs e)
-        {
-
-            this.g.Clear(this.pboxGameZone.BackColor);
-
-            this.StartNewGame();
-        }
-
+        #region Timer ticks
         /// <summary>
         /// The event that increase the hard level of the game each time the Speed-Control-Timer is triggered.
         /// </summary>
@@ -176,9 +95,10 @@ namespace SnakeEater
         /// <param name="e"></param>
         private void TmrSpeedCtrl_Tick(object sender, EventArgs e)
         {
-            if (this.level <= 4)
+            if (this.level == this.lvInterval.Length - 1)
             {
-                this.level++;
+                // the most hard level reached.
+                return;
             }
 
             this.tmrForward.Interval = this.lvInterval[this.level];
@@ -210,72 +130,13 @@ namespace SnakeEater
         private void tmrCostTime_Tick(object sender, EventArgs e)
         {
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void toolStripMenu_Pause_Click(object sender, EventArgs e)
-        {
-            this.Pause();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void toolStripMenu_Save_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(this, "Not implemented yet!", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void toolStripMenu_Exit_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
         #endregion
 
         #region Private Methods
         /// <summary>
-        /// Start a new game.
-        /// </summary>
-        private void StartNewGame()
-        {
-            this.toolStripMenu_Pause.Text = "开始";
-            //this.button1.Text = "开始";
-            this.tmrForward.Stop();
-            this.tmrSpeedCtrl.Stop();
-            this.isGamePaused = true;
-            this.foodCount = 0;
-            this.level = 0;
-            this.scoreTotal = 0;
-            this.tmrForward.Interval = this.lvInterval[this.level];
-
-            // init the snake
-            this.snake = new Snake();
-            foreach (Dot dot in this.snake.Body.AsEnumerable())
-            {
-                this.ShowDot(dot, false);
-            }
-
-            // init the food
-            this.food = this.GetNextFood();
-            this.ShowDot(this.food, true);
-        }
-
-        /// <summary>
-        /// 蛇动作的主要函数。
-        /// 
-        /// 控制蛇身前进一步，并判断是否吃到食物，或者撞到墙、自己的身体。
-        /// 吃到食物则身体增长一点，游戏继续；
-        /// 撞到墙、自己的身体则游戏结束。
+        /// Controls the snake to move a step forward. 
+        /// <para>>The game is over If the wall or its own body is hit.</para>
+        /// <para>>The snake grows a 'dot' if a food is eaten.</para>
         /// </summary>
         /// <returns>False if hit the wall or self's body, otherwise true is returned.</returns>
         private bool Forward()
@@ -359,8 +220,8 @@ namespace SnakeEater
             Dot d;
             do
             {
-                x = this.rand.Next(0, MAX_X);
-                y = this.rand.Next(0, MAX_Y);
+                x = this.rand.Next(0, Consts.MAX_X);
+                y = this.rand.Next(0, Consts.MAX_Y);
                 d = new Dot(x, y);
             } while (this.snake.Body.Contains(d));
 
@@ -384,8 +245,8 @@ namespace SnakeEater
         /// <returns>True if it hits the wall.</returns>
         private bool IsWallOrBodyHit(Dot newHead)
         {
-            if (newHead.Point.X < 0 || newHead.Point.X >= MAX_X ||
-                newHead.Point.Y < 0 || newHead.Point.Y >= MAX_Y)
+            if (newHead.Point.X < 0 || newHead.Point.X >= Consts.MAX_X ||
+                newHead.Point.Y < 0 || newHead.Point.Y >= Consts.MAX_Y)
             {
                 return true;
             }
@@ -396,29 +257,6 @@ namespace SnakeEater
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void Pause()
-        {
-            if (this.isGamePaused)
-            {
-                this.isGamePaused = false;
-                this.tmrSpeedCtrl.Start();
-                this.tmrForward.Start();
-                //this.button1.Text = "暂停";
-                this.toolStripMenu_Pause.Text = "暂停";
-            }
-            else
-            {
-                this.isGamePaused = true;
-                this.tmrSpeedCtrl.Stop();
-                this.tmrForward.Stop();
-                //this.button1.Text = "继续";
-                this.toolStripMenu_Pause.Text = "继续";
-            }
         }
 
         /// <summary>
