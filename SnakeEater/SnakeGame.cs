@@ -17,7 +17,7 @@ namespace SnakeEater
     /// </summary>
     public partial class SnakeGame : Form
     {
-        #region Properties
+        #region Variables
         /// <summary>
         /// The number of foods that are eaten.
         /// </summary>
@@ -68,12 +68,20 @@ namespace SnakeEater
         /// </summary>
         private Brush penErase;
 
+        /// <summary>
+        /// Random number generator.
+        /// </summary>
         private Random rand;
+
+        /// <summary>
+        /// Array that stores total gaming time. Each stands for: hours, minutes, seconds, 0.1 seconds.
+        /// </summary>
+        private int[] timeCountArray = { 0, 0, 0, 0 };
         #endregion
 
         #region Constructor
         /// <summary>
-        /// 
+        /// Initialize a SnakeGame instance.
         /// </summary>
         public SnakeGame()
         {
@@ -105,7 +113,7 @@ namespace SnakeEater
         }
 
         /// <summary>
-        /// 
+        /// Make the snake move a step further.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -115,6 +123,7 @@ namespace SnakeEater
             if (!isAlive)
             {
                 // game is over
+                this.tmrCostTime.Stop();
                 this.tmrForward.Stop();
                 this.tmrSpeedCtrl.Stop();
 
@@ -123,16 +132,24 @@ namespace SnakeEater
         }
 
         /// <summary>
-        /// 
+        /// Updates the total gaming time.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void tmrCostTime_Tick(object sender, EventArgs e)
+        private void TmrCostTime_Tick(object sender, EventArgs e)
         {
+            this.timeCountArray[3]++;
+            if (this.timeCountArray[3] == 10)
+            {
+                this.timeCountArray[3] = 0;
+                this.AddOneSecond();
+            }
+
+            this.txtTime.Text = string.Format(Consts.FormatTime, this.timeCountArray[0], this.timeCountArray[1], this.timeCountArray[2], this.timeCountArray[3]);
         }
         #endregion
 
-        #region Private Methods
+        #region Movement Control
         /// <summary>
         /// Controls the snake to move a step forward. 
         /// <para>>The game is over If the wall or its own body is hit.</para>
@@ -258,7 +275,9 @@ namespace SnakeEater
 
             return false;
         }
+        #endregion
 
+        #region Display Control
         /// <summary>
         /// 
         /// </summary>
@@ -283,6 +302,42 @@ namespace SnakeEater
         private void FadeDot(Dot dot)
         {
             g.FillRectangle(this.penErase, dot.PointReal.X, dot.PointReal.Y, dot.Size.Width, dot.Size.Height);
+        }
+        #endregion
+
+        #region Gaming time Control
+        /// <summary>
+        /// Add one second to the total gaming time.
+        /// </summary>
+        private void AddOneSecond()
+        {
+            this.timeCountArray[2]++;
+            if (this.timeCountArray[2] == 60)
+            {
+                this.timeCountArray[2] = 0;
+                this.AddOneMinute();
+            }
+        }
+
+        /// <summary>
+        /// Add one minute to the total gaming time.
+        /// </summary>
+        private void AddOneMinute()
+        {
+            this.timeCountArray[1]++;
+            if (this.timeCountArray[1] == 60)
+            {
+                this.timeCountArray[1] = 0;
+                this.AddOneHour();
+            }
+        }
+
+        /// <summary>
+        /// Add one hour to the total gaming time.
+        /// </summary>
+        private void AddOneHour()
+        {
+            this.timeCountArray[0]++;
         }
         #endregion
     }

@@ -11,7 +11,6 @@ namespace SnakeEater.Common
     /// </summary>
     public class Consts
     {
-        #region Consts
         /// <summary>
         /// The max x position of snake or food.
         /// </summary>
@@ -21,6 +20,10 @@ namespace SnakeEater.Common
         /// The max y position of snake or food.
         /// </summary>
         public const int MAX_Y = 40;
-        #endregion
+
+        /// <summary>
+        /// Time format for gaming time. "{0}:{1:D2}:{2:D2}.{3}"
+        /// </summary>
+        public const string FormatTime = "{0}:{1:D2}:{2:D2}.{3}";
     }
 }

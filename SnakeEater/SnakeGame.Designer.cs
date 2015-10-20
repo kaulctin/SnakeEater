@@ -76,7 +76,7 @@
             this.txtScore.Location = new System.Drawing.Point(411, 17);
             this.txtScore.Name = "txtScore";
             this.txtScore.ReadOnly = true;
-            this.txtScore.Size = new System.Drawing.Size(124, 21);
+            this.txtScore.Size = new System.Drawing.Size(115, 21);
             this.txtScore.TabIndex = 1;
             this.txtScore.Text = "0";
             this.txtScore.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -239,7 +239,7 @@
             // 
             // tmrCostTime
             // 
-            this.tmrCostTime.Tick += new System.EventHandler(this.tmrCostTime_Tick);
+            this.tmrCostTime.Tick += new System.EventHandler(this.TmrCostTime_Tick);
             // 
             // SnakeGame
             // 

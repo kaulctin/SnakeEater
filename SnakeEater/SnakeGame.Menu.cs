@@ -128,7 +128,7 @@ namespace SnakeEater
         private void StartNewGame()
         {
             // init relevent variables
-            this.toolStripMenu_Pause.Text = "暂停";
+            this.toolStripMenu_Pause.Text = "Pause";
             this.toolStripMenu_Pause.Enabled = true;
             this.scoreTotal = 0;
             this.foodCount = 0;
@@ -146,9 +146,9 @@ namespace SnakeEater
             this.food = this.GetNextFood();
             this.ShowDot(this.food, true);
 
+            this.tmrCostTime.Start();
             this.tmrForward.Start();
             this.tmrSpeedCtrl.Start();
-            this.tmrCostTime.Start();
         }
 
         /// <summary>
@@ -158,15 +158,17 @@ namespace SnakeEater
         {
             if (this.tmrForward.IsStopped)
             {
-                this.tmrSpeedCtrl.Start();
+                this.tmrCostTime.Start();
                 this.tmrForward.Start();
-                this.toolStripMenu_Pause.Text = "暂停";
+                this.tmrSpeedCtrl.Start();
+                this.toolStripMenu_Pause.Text = "Pause";
             }
             else
             {
-                this.tmrSpeedCtrl.Stop();
+                this.tmrCostTime.Stop();
                 this.tmrForward.Stop();
-                this.toolStripMenu_Pause.Text = "继续";
+                this.tmrSpeedCtrl.Stop();
+                this.toolStripMenu_Pause.Text = "Play";
             }
         }
         #endregion
