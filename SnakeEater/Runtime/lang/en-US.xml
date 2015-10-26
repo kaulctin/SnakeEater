@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<language CultureInfo ="en-US">
+	<Title>My Snake Eater</Title>
+	<GameTime>Time</GameTime>
+	<FoodEaten>Foods Eaten</FoodEaten>
+	<Score>Score</Score>
+	<Game>Game</Game>
+	<NewGame>Start a new game</NewGame>
+	<Pause>Pause</Pause>
+	<Play>Play</Play>
+	<Save>Save</Save>
+	<Exit>Exit</Exit>
+	<Help>Help</Help>
+	<Log>Update Log</Log>
+	<About>About</About>
+</language>

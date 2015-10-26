@@ -255,6 +255,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SnakeGame";
             this.Text = "My Snake Eater";
+            this.Load += new System.EventHandler(this.SnakeGame_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SnakeGame_KeyDown);
             this.grpInfo.ResumeLayout(false);
             this.grpInfo.PerformLayout();

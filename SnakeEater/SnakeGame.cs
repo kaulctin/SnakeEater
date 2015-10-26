@@ -2,13 +2,20 @@
 using SnakeEater.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace SnakeEater
 {
@@ -77,6 +84,11 @@ namespace SnakeEater
         /// Array that stores total gaming time. Each stands for: hours, minutes, seconds, 0.1 seconds.
         /// </summary>
         private int[] timeCountArray = { 0, 0, 0, 0 };
+
+        /// <summary>
+        /// The current language info.
+        /// </summary>
+        private Language lang = new Language();
         #endregion
 
         #region Constructor
@@ -94,6 +106,38 @@ namespace SnakeEater
             this.rand = new Random();
         }
         #endregion
+
+        /// <summary>
+        /// Initialize the facade's display language.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SnakeGame_Load(object sender, EventArgs e)
+        {
+            bool isError = false;
+            this.lang.CultureInfoName = ConfigurationManager.AppSettings.Get("DefaultLanguage");
+            try
+            {
+                CultureInfo ci = new CultureInfo(this.lang.CultureInfoName);
+            }
+            catch (Exception)
+            {
+                isError = true;
+            }
+
+            if (!isError)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(Directory.GetCurrentDirectory());
+                sb.Append(Consts.LanguageFolder);
+                sb.Append(this.lang.CultureInfoName);
+                sb.Append(".xml");
+
+                this.ReadInTheLanguageInfo(this.lang, sb.ToString());
+
+                this.SetMenuDisplay(this.lang);
+            }
+        }
 
         #region Timer ticks
         /// <summary>
@@ -126,6 +170,7 @@ namespace SnakeEater
                 this.tmrCostTime.Stop();
                 this.tmrForward.Stop();
                 this.tmrSpeedCtrl.Stop();
+                this.toolStripMenu_Pause.Enabled = false;
 
                 MessageBox.Show(this, "Game is over......", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
@@ -338,6 +383,67 @@ namespace SnakeEater
         private void AddOneHour()
         {
             this.timeCountArray[0]++;
+        }
+        #endregion
+
+        #region Language Control
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <param name="filePath"></param>
+        private void ReadInTheLanguageInfo(Language lang, string filePath)
+        {
+            if (lang == null || string.IsNullOrEmpty(filePath))
+            {
+                MessageBox.Show("Language File read error!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                return;
+            }
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filePath);
+
+            XmlNode langNode = doc.SelectSingleNode("language");
+            lang.CultureInfoName = ((XmlElement)langNode).GetAttribute("CultureInfo");
+            XmlNodeList nodes = langNode.ChildNodes;
+
+            Type t = lang.GetType();
+            foreach (XmlNode item in nodes)
+            {
+                t.GetProperty(item.Name).SetValue(lang, item.InnerText);
+            }
+        }
+
+        /// <summary>
+        /// Set the display words.
+        /// </summary>
+        /// <param name="lang">The language instance.</param>
+        private void SetMenuDisplay(Language lang)
+        {
+            if (lang == null)
+            {
+                return;
+            }
+
+            this.Text = lang.Title;
+            this.lblTime.Text = lang.GameTime;
+            this.txtTime.Left = this.lblTime.Left + this.lblTime.PreferredWidth;
+            this.lblFoodCount.Text = lang.FoodEaten;
+            this.lblFoodCount.Left = this.txtTime.Left + this.txtTime.Width + 6;
+            this.txtFoodCount.Left = this.lblFoodCount.Left + this.lblFoodCount.PreferredWidth;
+            this.lblScore.Text = lang.Score;
+            this.lblScore.Left = this.txtFoodCount.Left + this.txtFoodCount.Width + 6;
+            this.txtScore.Left = this.lblScore.Left + this.lblScore.PreferredWidth;
+
+            this.toolStripMenu_Game.Text = lang.Game + "(&G)";
+            this.toolStripMenu_NewGame.Text = lang.NewGame;
+            this.toolStripMenu_Pause.Text = this.tmrForward.IsStopped ? lang.Play : lang.Pause;
+            this.toolStripMenu_Save.Text = lang.Save;
+            this.toolStripMenu_Exit.Text = lang.Exit;
+            
+            this.ToolStripMenu_Help.Text = lang.Help + "(&H)";
+            this.toolStripMenu_UpdLog.Text = lang.Log;
+            this.toolStripMenu_About.Text = lang.About;
         }
         #endregion
     }

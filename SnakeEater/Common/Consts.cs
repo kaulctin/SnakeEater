@@ -25,5 +25,20 @@ namespace SnakeEater.Common
         /// Time format for gaming time. "{0}:{1:D2}:{2:D2}.{3}"
         /// </summary>
         public const string FormatTime = "{0}:{1:D2}:{2:D2}.{3}";
+
+        /// <summary>
+        /// Default culture info, which is en-US.
+        /// </summary>
+        public const string DefaultCultureInfo = "en-US";
+
+        /// <summary>
+        /// Language file folder.
+        /// </summary>
+        public const string LanguageFolder = "/Runtime/lang/";
+
+        /// <summary>
+        /// Language file default section.
+        /// </summary>
+        public const string LanguageSection = "Main";
     }
 }

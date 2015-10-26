@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<language CultureInfo ="zh-CN">
+	<Title>我的贪吃蛇</Title>
+	<GameTime>游戏时间</GameTime>
+	<FoodEaten>吃到的食物数</FoodEaten>
+	<Score>得分</Score>
+	<Game>游戏</Game>
+	<NewGame>开始新游戏</NewGame>
+	<Pause>暂停</Pause>
+	<Play>继续</Play>
+	<Save>保存</Save>
+	<Exit>退出</Exit>
+	<Help>帮助</Help>
+	<Log>升级日志</Log>
+	<About>关于</About>
+</language>
