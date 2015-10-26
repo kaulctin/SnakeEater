@@ -44,6 +44,8 @@
             this.toolStripMenu_Pause = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenu_Save = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenu_Exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenu_Set = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenu_Language = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenu_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenu_UpdLog = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenu_About = new System.Windows.Forms.ToolStripMenuItem();
@@ -152,6 +154,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenu_Game,
+            this.toolStripMenu_Set,
             this.ToolStripMenu_Help});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -170,8 +173,8 @@
             this.toolStripMenu_Game.Name = "toolStripMenu_Game";
             this.toolStripMenu_Game.ShortcutKeyDisplayString = "";
             this.toolStripMenu_Game.ShowShortcutKeys = false;
-            this.toolStripMenu_Game.Size = new System.Drawing.Size(71, 21);
-            this.toolStripMenu_Game.Text = "Game(&G)";
+            this.toolStripMenu_Game.Size = new System.Drawing.Size(54, 21);
+            this.toolStripMenu_Game.Text = "&Game";
             // 
             // toolStripMenu_NewGame
             // 
@@ -186,7 +189,7 @@
             this.toolStripMenu_Pause.Enabled = false;
             this.toolStripMenu_Pause.Name = "toolStripMenu_Pause";
             this.toolStripMenu_Pause.Size = new System.Drawing.Size(226, 22);
-            this.toolStripMenu_Pause.Text = "Play";
+            this.toolStripMenu_Pause.Text = "&Play";
             this.toolStripMenu_Pause.Click += new System.EventHandler(this.toolStripMenu_Pause_Click);
             // 
             // toolStripMenu_Save
@@ -194,7 +197,7 @@
             this.toolStripMenu_Save.Name = "toolStripMenu_Save";
             this.toolStripMenu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.toolStripMenu_Save.Size = new System.Drawing.Size(226, 22);
-            this.toolStripMenu_Save.Text = "Save";
+            this.toolStripMenu_Save.Text = "&Save";
             this.toolStripMenu_Save.Click += new System.EventHandler(this.toolStripMenu_Save_Click);
             // 
             // toolStripMenu_Exit
@@ -204,27 +207,42 @@
             this.toolStripMenu_Exit.Text = "Exit";
             this.toolStripMenu_Exit.Click += new System.EventHandler(this.toolStripMenu_Exit_Click);
             // 
+            // toolStripMenu_Set
+            // 
+            this.toolStripMenu_Set.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenu_Language});
+            this.toolStripMenu_Set.Name = "toolStripMenu_Set";
+            this.toolStripMenu_Set.Size = new System.Drawing.Size(66, 21);
+            this.toolStripMenu_Set.Text = "&Settings";
+            // 
+            // toolStripMenu_Language
+            // 
+            this.toolStripMenu_Language.Name = "toolStripMenu_Language";
+            this.toolStripMenu_Language.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenu_Language.Text = "&Language";
+            this.toolStripMenu_Language.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.Language_DropDownItemClicked);
+            // 
             // ToolStripMenu_Help
             // 
             this.ToolStripMenu_Help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenu_UpdLog,
             this.toolStripMenu_About});
             this.ToolStripMenu_Help.Name = "ToolStripMenu_Help";
-            this.ToolStripMenu_Help.Size = new System.Drawing.Size(64, 21);
-            this.ToolStripMenu_Help.Text = "Help(&H)";
+            this.ToolStripMenu_Help.Size = new System.Drawing.Size(47, 21);
+            this.ToolStripMenu_Help.Text = "&Help";
             // 
             // toolStripMenu_UpdLog
             // 
             this.toolStripMenu_UpdLog.Name = "toolStripMenu_UpdLog";
             this.toolStripMenu_UpdLog.Size = new System.Drawing.Size(227, 22);
-            this.toolStripMenu_UpdLog.Text = "Update Log";
+            this.toolStripMenu_UpdLog.Text = "&Update Log";
             // 
             // toolStripMenu_About
             // 
             this.toolStripMenu_About.Name = "toolStripMenu_About";
             this.toolStripMenu_About.ShortcutKeys = System.Windows.Forms.Keys.F1;
             this.toolStripMenu_About.Size = new System.Drawing.Size(227, 22);
-            this.toolStripMenu_About.Text = "About My Snake Eater";
+            this.toolStripMenu_About.Text = "&About My Snake Eater";
             this.toolStripMenu_About.Click += new System.EventHandler(this.toolStripMenu_About_Click);
             // 
             // tmrSpeedCtrl
@@ -291,6 +309,8 @@
         private MyControl.UTimer tmrForward;
         private System.Windows.Forms.PictureBox pboxGameZone;
         private MyControl.UTimer tmrCostTime;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenu_Set;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenu_Language;
 
     }
 }

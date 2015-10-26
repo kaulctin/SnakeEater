@@ -1,6 +1,9 @@
-﻿using SnakeEater.Model;
+﻿using SnakeEater.Common;
+using SnakeEater.Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -119,6 +122,28 @@ namespace SnakeEater
         {
             MessageBox.Show(this, "Not implemented yet!", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        /// <summary>
+        /// Language changed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Language_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            string selectedLang = e.ClickedItem.Name.Substring(Consts.LanguageMenuNamePrifix.Length);
+
+            // change the display language.
+            bool rst = this.InitializeDisplayLanguage(selectedLang);
+
+            if (rst)
+            {
+                // write default language into config file.
+                Configuration conf = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                conf.AppSettings.Settings.Remove(Consts.DefaultLangConfigKey);
+                conf.AppSettings.Settings.Add(Consts.DefaultLangConfigKey, selectedLang);
+                conf.Save(ConfigurationSaveMode.Minimal);
+            }
+        }
         #endregion
 
         #region private method
@@ -161,14 +186,14 @@ namespace SnakeEater
                 this.tmrCostTime.Start();
                 this.tmrForward.Start();
                 this.tmrSpeedCtrl.Start();
-                this.toolStripMenu_Pause.Text = "Pause";
+                this.toolStripMenu_Pause.Text = this.lang.Pause;
             }
             else
             {
                 this.tmrCostTime.Stop();
                 this.tmrForward.Stop();
                 this.tmrSpeedCtrl.Stop();
-                this.toolStripMenu_Pause.Text = "Play";
+                this.toolStripMenu_Pause.Text = this.lang.Play;
             }
         }
         #endregion

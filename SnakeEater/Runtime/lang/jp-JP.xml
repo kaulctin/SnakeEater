@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<language CultureInfo ="jp-JP">
+	<Title>スネーク ゲーム</Title>
+	<GameTime>ゲームタイム</GameTime>
+	<FoodEaten>食べた</FoodEaten>
+	<Score>点数</Score>
+	<Game>ゲーム</Game>
+	<NewGame>新いゲーム</NewGame>
+	<Pause>一時停止</Pause>
+	<Play>続行</Play>
+	<Save>保存</Save>
+	<Exit>終了</Exit>
+	<Settings>設定</Settings>
+	<Language>ランゲージ</Language>
+	<Help>ヘルプ</Help>
+	<Log>更新ログ</Log>
+	<About>ゲームについて</About>
+</language>

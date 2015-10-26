@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,11 @@ namespace SnakeEater.Common
         public const string FormatTime = "{0}:{1:D2}:{2:D2}.{3}";
 
         /// <summary>
+        /// The key of default language setting in config file.
+        /// </summary>
+        public const string DefaultLangConfigKey = "DefaultLanguage";
+
+        /// <summary>
         /// Default culture info, which is en-US.
         /// </summary>
         public const string DefaultCultureInfo = "en-US";
@@ -37,8 +43,23 @@ namespace SnakeEater.Common
         public const string LanguageFolder = "/lang/";
 
         /// <summary>
+        /// Language menu file's name.
+        /// </summary>
+        public const string LanguageMenuListFile = "list";
+
+        /// <summary>
+        /// Language file extension ".xml"
+        /// </summary>
+        public const string LanguageFileExt = ".xml";
+
+        /// <summary>
         /// Language file default section.
         /// </summary>
         public const string LanguageSection = "Main";
+
+        /// <summary>
+        /// Language menu's name prifix.
+        /// </summary>
+        public const string LanguageMenuNamePrifix = "toolStripMenu_Lang_";
     }
 }

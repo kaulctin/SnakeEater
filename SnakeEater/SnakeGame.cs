@@ -60,6 +60,7 @@ namespace SnakeEater
         /// </summary>
         private Snake snake;
 
+        #region GDI
         /// <summary>
         /// 
         /// </summary>
@@ -74,6 +75,7 @@ namespace SnakeEater
         /// Pen for erasing.
         /// </summary>
         private Brush penErase;
+        #endregion
 
         /// <summary>
         /// Random number generator.
@@ -85,10 +87,20 @@ namespace SnakeEater
         /// </summary>
         private int[] timeCountArray = { 0, 0, 0, 0 };
 
+        /////// <summary>
+        /////// stores the menu items which should be read from list.xml in language folder.
+        /////// </summary>
+        ////private Dictionary<string, string> menuItemsDict = new Dictionary<string, string>();
+
         /// <summary>
         /// The current language info.
         /// </summary>
-        private Language lang = new Language();
+        private LanguageClass lang = new LanguageClass();
+
+        /// <summary>
+        /// Language selection list menu's default size.
+        /// </summary>
+        private Size languageMenuSize = new Size(152, 22);
         #endregion
 
         #region Constructor
@@ -108,35 +120,17 @@ namespace SnakeEater
         #endregion
 
         /// <summary>
-        /// Initialize the facade's display language.
+        /// Load event.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void SnakeGame_Load(object sender, EventArgs e)
         {
-            bool isError = false;
-            this.lang.CultureInfoName = ConfigurationManager.AppSettings.Get("DefaultLanguage");
-            try
-            {
-                CultureInfo ci = new CultureInfo(this.lang.CultureInfoName);
-            }
-            catch (Exception)
-            {
-                isError = true;
-            }
+            // Initialize the language drop down menus.
+            this.InitializeLanguageMenu();
 
-            if (!isError)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append(Directory.GetCurrentDirectory());
-                sb.Append(Consts.LanguageFolder);
-                sb.Append(this.lang.CultureInfoName);
-                sb.Append(".xml");
-
-                this.ReadInTheLanguageInfo(this.lang, sb.ToString());
-
-                this.SetMenuDisplay(this.lang);
-            }
+            // Initialize the facade's display language.
+            this.InitializeDisplayLanguage(ConfigurationManager.AppSettings.Get(Consts.DefaultLangConfigKey));
         }
 
         #region Timer ticks
@@ -387,12 +381,93 @@ namespace SnakeEater
         #endregion
 
         #region Language Control
+
         /// <summary>
-        /// 
+        /// Initialize the language drop down menus.
         /// </summary>
-        /// <param name="lang"></param>
-        /// <param name="filePath"></param>
-        private void ReadInTheLanguageInfo(Language lang, string filePath)
+        private void InitializeLanguageMenu()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(Directory.GetCurrentDirectory());
+            sb.Append(Consts.LanguageFolder);
+            sb.Append(Consts.LanguageMenuListFile);
+            sb.Append(Consts.LanguageFileExt);
+
+            XmlReaderSettings set = new XmlReaderSettings();
+            set.IgnoreComments = true;
+            XmlReader reader = XmlReader.Create(sb.ToString(), set);
+            XmlDocument doc = new XmlDocument();
+            doc.Load(reader);
+
+            var nod = doc.SelectSingleNode(Consts.LanguageMenuListFile);
+            var childNodes = nod.ChildNodes;
+            Dictionary<string, string> menuItemsDict = new Dictionary<string, string>();
+            foreach (XmlNode item in childNodes)
+            {
+                menuItemsDict.Add(item.Name, item.InnerText);
+            }
+
+            // add menu items
+            this.AddLanguageMenuItems(menuItemsDict);
+        }
+
+        /// <summary>
+        /// Add language candidate list to the language menu's DropDownItems.
+        /// </summary>
+        /// <param name="menuItemsDict">the language candidates list</param>
+        private void AddLanguageMenuItems(Dictionary<string, string> menuItemsDict)
+        {
+            List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
+
+            foreach (KeyValuePair<string, string> kvp in menuItemsDict)
+            {
+                ToolStripMenuItem oneMenu = new ToolStripMenuItem();
+                oneMenu.Name = Consts.LanguageMenuNamePrifix + kvp.Key;
+                oneMenu.Text = kvp.Value;
+                oneMenu.Size = this.languageMenuSize;
+                menuList.Add(oneMenu);
+            }
+
+            this.toolStripMenu_Language.DropDownItems.AddRange(menuList.ToArray());
+        }
+
+        /// <summary>
+        /// Initialize the facade's display language.
+        /// </summary>
+        /// <param name="culInfoName">The name of CultureInfo</param>
+        private bool InitializeDisplayLanguage(string culInfoName)
+        {
+            try
+            {
+                CultureInfo ci = new CultureInfo(culInfoName);
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append(Directory.GetCurrentDirectory());
+                sb.Append(Consts.LanguageFolder);
+                sb.Append(culInfoName);
+                sb.Append(Consts.LanguageFileExt);
+
+                // read in
+                this.lang.CultureInfoName = culInfoName;
+                this.ReadInTheLanguageInfo(this.lang, sb.ToString());
+
+                // set
+                this.SetMenuDisplay(this.lang);
+                return true;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(this, "An error occured when setting display language!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Read language config file into a LanguageClass instance.
+        /// </summary>
+        /// <param name="lang">The LanguageClass to read into.</param>
+        /// <param name="filePath">language config file's full path</param>
+        private void ReadInTheLanguageInfo(LanguageClass lang, string filePath)
         {
             if (lang == null || string.IsNullOrEmpty(filePath))
             {
@@ -418,7 +493,7 @@ namespace SnakeEater
         /// Set the display words.
         /// </summary>
         /// <param name="lang">The language instance.</param>
-        private void SetMenuDisplay(Language lang)
+        private void SetMenuDisplay(LanguageClass lang)
         {
             if (lang == null)
             {
@@ -435,13 +510,28 @@ namespace SnakeEater
             this.lblScore.Left = this.txtFoodCount.Left + this.txtFoodCount.Width + 6;
             this.txtScore.Left = this.lblScore.Left + this.lblScore.PreferredWidth;
 
-            this.toolStripMenu_Game.Text = lang.Game + "(&G)";
+            this.toolStripMenu_Game.Text = lang.Game;
             this.toolStripMenu_NewGame.Text = lang.NewGame;
             this.toolStripMenu_Pause.Text = this.tmrForward.IsStopped ? lang.Play : lang.Pause;
             this.toolStripMenu_Save.Text = lang.Save;
             this.toolStripMenu_Exit.Text = lang.Exit;
+            this.toolStripMenu_Set.Text = lang.Settings;
+            this.toolStripMenu_Language.Text = lang.Language;
+            foreach (ToolStripMenuItem item in this.toolStripMenu_Language.DropDownItems)
+            {
+                if (item.Name.IndexOf(lang.CultureInfoName) >= 0)
+                {
+                    item.Checked = true;
+                    //item.CheckState = CheckState.Checked;
+                }
+                else
+                {
+                    item.Checked = false;
+                    //item.CheckState = CheckState.Unchecked;
+                }
+            }
             
-            this.ToolStripMenu_Help.Text = lang.Help + "(&H)";
+            this.ToolStripMenu_Help.Text = lang.Help;
             this.toolStripMenu_UpdLog.Text = lang.Log;
             this.toolStripMenu_About.Text = lang.About;
         }

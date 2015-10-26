@@ -10,21 +10,12 @@ namespace SnakeEater.Model
     /// <summary>
     /// A class that contains all the menu display strings.
     /// </summary>
-    public class Language
+    public class LanguageClass
     {
         /// <summary>
         /// CultureInfo of this language.
         /// </summary>
         public string CultureInfoName
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// The file's name that refers to this language info.
-        /// </summary>
-        public string ReferredFileName
         {
             get;
             set;
@@ -79,6 +70,16 @@ namespace SnakeEater.Model
         /// String refers to the "Exit" menu.
         /// </summary>
         public string Exit { get; set; }
+
+        /// <summary>
+        /// String refers to the "Settings" menu.
+        /// </summary>
+        public string Settings { get; set; }
+
+        /// <summary>
+        /// String refers to the "Language" menu.
+        /// </summary>
+        public string Language { get; set; }
 
         /// <summary>
         /// String refers to the "Help" menu.
