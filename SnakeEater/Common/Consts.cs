@@ -34,7 +34,7 @@ namespace SnakeEater.Common
         /// <summary>
         /// Language file folder.
         /// </summary>
-        public const string LanguageFolder = "/Runtime/lang/";
+        public const string LanguageFolder = "/lang/";
 
         /// <summary>
         /// Language file default section.
