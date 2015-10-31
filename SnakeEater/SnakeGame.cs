@@ -26,39 +26,14 @@ namespace SnakeEater
     {
         #region Variables
         /// <summary>
-        /// The number of foods that are eaten.
+        /// Game's data class.
         /// </summary>
-        private int foodCount;
+        private Game gameData;
 
         /// <summary>
-        /// Current hard level.
+        /// Random number generator.
         /// </summary>
-        private int level = 0;
-
-        /// <summary>
-        /// The array of the interval for each level.
-        /// </summary>
-        private int[] lvInterval = { 300, 250, 200, 150, 100, 80, 50 };
-
-        /// <summary>
-        /// Total scores.
-        /// </summary>
-        private int scoreTotal;
-
-        /// <summary>
-        /// The array of the scores for each level.
-        /// </summary>
-        private int[] scorePerFood = { 10, 12, 16, 25, 50, 80, 100 };
-
-        /// <summary>
-        /// The food.
-        /// </summary>
-        private Dot food;
-
-        /// <summary>
-        /// The snake.
-        /// </summary>
-        private Snake snake;
+        private Random rand;
 
         #region GDI
         /// <summary>
@@ -76,31 +51,6 @@ namespace SnakeEater
         /// </summary>
         private Brush penErase;
         #endregion
-
-        /// <summary>
-        /// Random number generator.
-        /// </summary>
-        private Random rand;
-
-        /// <summary>
-        /// Array that stores total gaming time. Each stands for: hours, minutes, seconds, 0.1 seconds.
-        /// </summary>
-        private int[] timeCountArray = { 0, 0, 0, 0 };
-
-        /////// <summary>
-        /////// stores the menu items which should be read from list.xml in language folder.
-        /////// </summary>
-        ////private Dictionary<string, string> menuItemsDict = new Dictionary<string, string>();
-
-        /// <summary>
-        /// The current language info.
-        /// </summary>
-        private LanguageClass lang = new LanguageClass();
-
-        /// <summary>
-        /// Language selection list menu's default size.
-        /// </summary>
-        private Size languageMenuSize = new Size(152, 22);
         #endregion
 
         #region Constructor
@@ -116,6 +66,8 @@ namespace SnakeEater
             this.pen = new SolidBrush(Color.Black);
             this.penErase = new SolidBrush(this.pboxGameZone.BackColor);
             this.rand = new Random();
+
+            this.gameData = new Game();
         }
         #endregion
 
@@ -141,13 +93,13 @@ namespace SnakeEater
         /// <param name="e"></param>
         private void TmrSpeedCtrl_Tick(object sender, EventArgs e)
         {
-            if (this.level == this.lvInterval.Length - 1)
+            if (this.gameData.Level == Consts.LvInterval.Length - 1)
             {
                 // the most hard level reached.
                 return;
             }
 
-            this.tmrForward.Interval = this.lvInterval[this.level];
+            this.tmrForward.Interval = Consts.LvInterval[this.gameData.Level];
         }
 
         /// <summary>
@@ -177,14 +129,14 @@ namespace SnakeEater
         /// <param name="e"></param>
         private void TmrCostTime_Tick(object sender, EventArgs e)
         {
-            this.timeCountArray[3]++;
-            if (this.timeCountArray[3] == 10)
+            this.gameData.TimeCountArray[3]++;
+            if (this.gameData.TimeCountArray[3] == 10)
             {
-                this.timeCountArray[3] = 0;
+                this.gameData.TimeCountArray[3] = 0;
                 this.AddOneSecond();
             }
 
-            this.txtTime.Text = string.Format(Consts.FormatTime, this.timeCountArray[0], this.timeCountArray[1], this.timeCountArray[2], this.timeCountArray[3]);
+            this.txtTime.Text = string.Format(Consts.FormatTime, this.gameData.TimeCountArray[0], this.gameData.TimeCountArray[1], this.gameData.TimeCountArray[2], this.gameData.TimeCountArray[3]);
         }
         #endregion
 
@@ -206,40 +158,40 @@ namespace SnakeEater
             if (this.IsFoodEaten(nextHead))
             {
                 // food eaten, body length +1
-                this.foodCount++;
-                this.txtFoodCount.Text = this.foodCount.ToString();
-                this.snake.Body.AddFirst(nextHead);
+                this.gameData.FoodCount++;
+                this.txtFoodCount.Text = this.gameData.FoodCount.ToString();
+                this.gameData.Snake.Body.AddFirst(nextHead);
                 this.ShowDot(nextHead, false);
 
                 // add score
-                this.scoreTotal += this.scorePerFood[this.level];
-                this.txtScore.Text = this.scoreTotal.ToString();
+                this.gameData.ScoreTotal += Consts.ScorePerFood[this.gameData.Level];
+                this.txtScore.Text = this.gameData.ScoreTotal.ToString();
 
                 // get next food
-                this.food = this.GetNextFood();
-                this.ShowDot(this.food, true);
+                this.gameData.Food = this.GetNextFood();
+                this.ShowDot(this.gameData.Food, true);
             }
             else
             {
                 // body length remains unchanged
                 this.ShowDot(nextHead, false);
-                this.FadeDot(this.snake.Body.Last.Value);
-                this.snake.Body.AddFirst(nextHead);
-                this.snake.Body.RemoveLast();
+                this.FadeDot(this.gameData.Snake.Body.Last.Value);
+                this.gameData.Snake.Body.AddFirst(nextHead);
+                this.gameData.Snake.Body.RemoveLast();
             }
 
             return true;
         }
 
         /// <summary>
-        /// 
+        /// Gets the position of next head Dot.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Next head Dot</returns>
         private Dot GetNextHead()
         {
-            Dot h = this.snake.Body.First.Value;
+            Dot h = this.gameData.Snake.Body.First.Value;
             int x, y;
-            switch (this.snake.Direction)
+            switch (this.gameData.Snake.Direction)
             {
                 case Direction.Right:
                     x = h.Point.X + 1;
@@ -279,7 +231,7 @@ namespace SnakeEater
                 x = this.rand.Next(0, Consts.MAX_X);
                 y = this.rand.Next(0, Consts.MAX_Y);
                 d = new Dot(x, y);
-            } while (this.snake.Body.Contains(d));
+            } while (this.gameData.Snake.Body.Contains(d));
 
             return d;
         }
@@ -291,7 +243,7 @@ namespace SnakeEater
         /// <returns>True if the snake head is at the same position with the food.</returns>
         private bool IsFoodEaten(Dot newHead)
         {
-            return this.food.Equals(newHead);
+            return this.gameData.Food.Equals(newHead);
         }
 
         /// <summary>
@@ -307,7 +259,7 @@ namespace SnakeEater
                 return true;
             }
 
-            if (this.snake.Body.Contains(newHead))
+            if (this.gameData.Snake.Body.Contains(newHead))
             {
                 return true;
             }
@@ -350,10 +302,10 @@ namespace SnakeEater
         /// </summary>
         private void AddOneSecond()
         {
-            this.timeCountArray[2]++;
-            if (this.timeCountArray[2] == 60)
+            this.gameData.TimeCountArray[2]++;
+            if (this.gameData.TimeCountArray[2] == 60)
             {
-                this.timeCountArray[2] = 0;
+                this.gameData.TimeCountArray[2] = 0;
                 this.AddOneMinute();
             }
         }
@@ -363,10 +315,10 @@ namespace SnakeEater
         /// </summary>
         private void AddOneMinute()
         {
-            this.timeCountArray[1]++;
-            if (this.timeCountArray[1] == 60)
+            this.gameData.TimeCountArray[1]++;
+            if (this.gameData.TimeCountArray[1] == 60)
             {
-                this.timeCountArray[1] = 0;
+                this.gameData.TimeCountArray[1] = 0;
                 this.AddOneHour();
             }
         }
@@ -376,12 +328,11 @@ namespace SnakeEater
         /// </summary>
         private void AddOneHour()
         {
-            this.timeCountArray[0]++;
+            this.gameData.TimeCountArray[0]++;
         }
         #endregion
 
         #region Language Control
-
         /// <summary>
         /// Initialize the language drop down menus.
         /// </summary>
@@ -424,7 +375,7 @@ namespace SnakeEater
                 ToolStripMenuItem oneMenu = new ToolStripMenuItem();
                 oneMenu.Name = Consts.LanguageMenuNamePrifix + kvp.Key;
                 oneMenu.Text = kvp.Value;
-                oneMenu.Size = this.languageMenuSize;
+                oneMenu.Size = Consts.LanguageMenuSize;
                 menuList.Add(oneMenu);
             }
 
@@ -448,11 +399,11 @@ namespace SnakeEater
                 sb.Append(Consts.LanguageFileExt);
 
                 // read in
-                this.lang.CultureInfoName = culInfoName;
-                this.ReadInTheLanguageInfo(this.lang, sb.ToString());
+                this.gameData.Lang.CultureInfoName = culInfoName;
+                this.ReadInTheLanguageInfo(this.gameData.Lang, sb.ToString());
 
                 // set
-                this.SetMenuDisplay(this.lang);
+                this.SetMenuDisplay(this.gameData.Lang);
                 return true;
             }
             catch (Exception)

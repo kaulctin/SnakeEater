@@ -24,7 +24,12 @@ namespace SnakeEater
         /// <param name="e"></param>
         private void SnakeGame_KeyDown(object sender, KeyEventArgs e)
         {
-            if (this.snake == null)
+            if (this.gameData.Snake == null)
+            {
+                return;
+            }
+
+            if (this.tmrForward.IsStopped)
             {
                 return;
             }
@@ -33,30 +38,30 @@ namespace SnakeEater
             {
                 case Keys.W:
                 case Keys.Up:
-                    if (this.snake.Direction != Direction.Down)
+                    if (this.gameData.Snake.Direction != Direction.Down)
                     {
-                        this.snake.Direction = Direction.UP;
+                        this.gameData.Snake.Direction = Direction.UP;
                     }
                     break;
                 case Keys.A:
                 case Keys.Left:
-                    if (this.snake.Direction != Direction.Right)
+                    if (this.gameData.Snake.Direction != Direction.Right)
                     {
-                        this.snake.Direction = Direction.Left;
+                        this.gameData.Snake.Direction = Direction.Left;
                     }
                     break;
                 case Keys.S:
                 case Keys.Down:
-                    if (this.snake.Direction != Direction.UP)
+                    if (this.gameData.Snake.Direction != Direction.UP)
                     {
-                        this.snake.Direction = Direction.Down;
+                        this.gameData.Snake.Direction = Direction.Down;
                     }
                     break;
                 case Keys.D:
                 case Keys.Right:
-                    if (this.snake.Direction != Direction.Left)
+                    if (this.gameData.Snake.Direction != Direction.Left)
                     {
-                        this.snake.Direction = Direction.Right;
+                        this.gameData.Snake.Direction = Direction.Right;
                     }
                     break;
                 case Keys.Space:
@@ -90,6 +95,11 @@ namespace SnakeEater
         /// <param name="e"></param>
         private void toolStripMenu_Pause_Click(object sender, EventArgs e)
         {
+            if (this.tmrForward.IsStopped)
+            {
+                return;
+            }
+
             this.Pause();
         }
 
@@ -153,23 +163,23 @@ namespace SnakeEater
         private void StartNewGame()
         {
             // init relevent variables
-            this.toolStripMenu_Pause.Text = "Pause";
+            this.toolStripMenu_Pause.Text = this.gameData.Lang.Pause;
             this.toolStripMenu_Pause.Enabled = true;
-            this.scoreTotal = 0;
-            this.foodCount = 0;
-            this.level = 0;
-            this.tmrForward.Interval = this.lvInterval[this.level];
+            this.gameData.ScoreTotal = 0;
+            this.gameData.FoodCount = 0;
+            this.gameData.Level = 0;
+            this.tmrForward.Interval = Consts.LvInterval[this.gameData.Level];
 
             // init the snake
-            this.snake = new Snake();
-            foreach (Dot dot in this.snake.Body.AsEnumerable())
+            this.gameData.Snake = new Snake();
+            foreach (Dot dot in this.gameData.Snake.Body.AsEnumerable())
             {
                 this.ShowDot(dot, false);
             }
 
             // init the food
-            this.food = this.GetNextFood();
-            this.ShowDot(this.food, true);
+            this.gameData.Food = this.GetNextFood();
+            this.ShowDot(this.gameData.Food, true);
 
             this.tmrCostTime.Start();
             this.tmrForward.Start();
@@ -186,14 +196,14 @@ namespace SnakeEater
                 this.tmrCostTime.Start();
                 this.tmrForward.Start();
                 this.tmrSpeedCtrl.Start();
-                this.toolStripMenu_Pause.Text = this.lang.Pause;
+                this.toolStripMenu_Pause.Text = this.gameData.Lang.Pause;
             }
             else
             {
                 this.tmrCostTime.Stop();
                 this.tmrForward.Stop();
                 this.tmrSpeedCtrl.Stop();
-                this.toolStripMenu_Pause.Text = this.lang.Play;
+                this.toolStripMenu_Pause.Text = this.gameData.Lang.Play;
             }
         }
         #endregion

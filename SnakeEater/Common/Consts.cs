@@ -61,5 +61,20 @@ namespace SnakeEater.Common
         /// Language menu's name prifix.
         /// </summary>
         public const string LanguageMenuNamePrifix = "toolStripMenu_Lang_";
+
+        /// <summary>
+        /// The array of the interval for each level.
+        /// </summary>
+        public static readonly int[] LvInterval = { 300, 250, 200, 150, 100, 80, 50 };
+
+        /// <summary>
+        /// The array of the scores for each level.
+        /// </summary>
+        public static readonly int[] ScorePerFood = { 10, 12, 16, 25, 50, 80, 100 };
+
+        /// <summary>
+        /// Language selection list menu's default size.
+        /// </summary>
+        public static readonly Size LanguageMenuSize = new Size(152, 22);
     }
 }

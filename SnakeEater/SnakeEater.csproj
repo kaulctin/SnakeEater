@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Consts.cs" />
+    <Compile Include="Model\Game.cs" />
     <Compile Include="Model\Language.cs" />
     <Compile Include="MyControl\UTimer.cs">
       <SubType>Component</SubType>

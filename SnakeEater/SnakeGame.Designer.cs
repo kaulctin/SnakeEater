@@ -218,7 +218,7 @@
             // toolStripMenu_Language
             // 
             this.toolStripMenu_Language.Name = "toolStripMenu_Language";
-            this.toolStripMenu_Language.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenu_Language.Size = new System.Drawing.Size(133, 22);
             this.toolStripMenu_Language.Text = "&Language";
             this.toolStripMenu_Language.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.Language_DropDownItemClicked);
             // 
@@ -272,6 +272,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SnakeGame";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "My Snake Eater";
             this.Load += new System.EventHandler(this.SnakeGame_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SnakeGame_KeyDown);
