@@ -4,15 +4,16 @@
 	<GameTime>Time</GameTime>
 	<FoodEaten>Foods Eaten</FoodEaten>
 	<Score>Score</Score>
-	<Game>Game</Game>
-	<NewGame>Start a new game</NewGame>
-	<Pause>Pause</Pause>
-	<Play>Play</Play>
-	<Save>Save</Save>
-	<Exit>Exit</Exit>
-	<Settings>Settings</Settings>
-	<Language>Language</Language>
-	<Help>Help</Help>
-	<Log>Update Log</Log>
-	<About>About</About>
+	<Game>&amp;Game</Game>
+	<NewGame>Start a &amp;new game</NewGame>
+	<Pause>&amp;Pause</Pause>
+	<Play>&amp;Play</Play>
+	<Save>&amp;Save</Save>
+  <Restore>&amp;Restore</Restore>
+	<Exit>&amp;Exit</Exit>
+	<Settings>&amp;Settings</Settings>
+	<Language>&amp;Language</Language>
+	<Help>&amp;Help</Help>
+	<Log>Update &amp;Log</Log>
+	<About>&amp;About</About>
 </language>

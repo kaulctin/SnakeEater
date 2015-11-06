@@ -8,6 +8,10 @@ using System.Windows.Forms;
 
 namespace SnakeEater.Model
 {
+    /// <summary>
+    /// Dot.
+    /// </summary>
+    [Serializable]
     public class Dot
     {
         #region Const

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +11,7 @@ namespace SnakeEater.Model
     /// <summary>
     /// Game data class.
     /// </summary>
+    [Serializable]
     public class Game
     {
         /// <summary>
@@ -45,5 +48,15 @@ namespace SnakeEater.Model
         /// The current language info.
         /// </summary>
         public LanguageClass Lang = new LanguageClass();
+
+        /// <summary>
+        /// Do something before serializing.
+        /// </summary>
+        /// <param name="context">contex</param>
+        [OnSerializing]
+        [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
+        private void OnSerializing(StreamingContext context)
+        {
+        }
     }
 }

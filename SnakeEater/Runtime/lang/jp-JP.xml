@@ -9,6 +9,7 @@
 	<Pause>一時停止</Pause>
 	<Play>続行</Play>
 	<Save>保存</Save>
+  <Restore>読み</Restore>
 	<Exit>終了</Exit>
 	<Settings>設定</Settings>
 	<Language>ランゲージ</Language>

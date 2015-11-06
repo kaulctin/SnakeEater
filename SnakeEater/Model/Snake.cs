@@ -20,6 +20,7 @@ namespace SnakeEater.Model
     /// <summary>
     /// 
     /// </summary>
+    [Serializable]
     public class Snake
     {
         #region Properties

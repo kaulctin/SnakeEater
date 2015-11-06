@@ -98,6 +98,10 @@ namespace SnakeEater
                 // the most hard level reached.
                 return;
             }
+            else
+            {
+                this.gameData.Level++;
+            }
 
             this.tmrForward.Interval = Consts.LvInterval[this.gameData.Level];
         }
@@ -465,6 +469,7 @@ namespace SnakeEater
             this.toolStripMenu_NewGame.Text = lang.NewGame;
             this.toolStripMenu_Pause.Text = this.tmrForward.IsStopped ? lang.Play : lang.Pause;
             this.toolStripMenu_Save.Text = lang.Save;
+            this.toolStripMenu_Restore.Text = lang.Restore;
             this.toolStripMenu_Exit.Text = lang.Exit;
             this.toolStripMenu_Set.Text = lang.Settings;
             this.toolStripMenu_Language.Text = lang.Language;
@@ -473,12 +478,10 @@ namespace SnakeEater
                 if (item.Name.IndexOf(lang.CultureInfoName) >= 0)
                 {
                     item.Checked = true;
-                    //item.CheckState = CheckState.Checked;
                 }
                 else
                 {
                     item.Checked = false;
-                    //item.CheckState = CheckState.Unchecked;
                 }
             }
             

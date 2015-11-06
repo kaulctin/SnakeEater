@@ -8,7 +8,8 @@
 	<NewGame>開始新的遊戲</NewGame>
 	<Pause>暫停</Pause>
 	<Play>繼續</Play>
-	<Save>保存</Save>
+	<Save>保存遊戲</Save>
+  <Restore>讀取遊戲</Restore>
 	<Exit>退出</Exit>
 	<Settings>設置</Settings>
 	<Language>語言</Language>

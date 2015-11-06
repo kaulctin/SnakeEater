@@ -10,6 +10,7 @@ namespace SnakeEater.Model
     /// <summary>
     /// A class that contains all the menu display strings.
     /// </summary>
+    [Serializable]
     public class LanguageClass
     {
         /// <summary>
@@ -65,6 +66,11 @@ namespace SnakeEater.Model
         /// String refers to the "Save" menu.
         /// </summary>
         public string Save { get; set; }
+
+        /// <summary>
+        /// String refers to the "Restore" menu.
+        /// </summary>
+        public string Restore { get; set; }
 
         /// <summary>
         /// String refers to the "Exit" menu.

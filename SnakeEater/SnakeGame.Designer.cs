@@ -52,6 +52,7 @@
             this.tmrSpeedCtrl = new SnakeEater.MyControl.UTimer(this.components);
             this.tmrForward = new SnakeEater.MyControl.UTimer(this.components);
             this.tmrCostTime = new SnakeEater.MyControl.UTimer(this.components);
+            this.toolStripMenu_Restore = new System.Windows.Forms.ToolStripMenuItem();
             this.grpInfo.SuspendLayout();
             this.pnlGameZone.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxGameZone)).BeginInit();
@@ -169,6 +170,7 @@
             this.toolStripMenu_NewGame,
             this.toolStripMenu_Pause,
             this.toolStripMenu_Save,
+            this.toolStripMenu_Restore,
             this.toolStripMenu_Exit});
             this.toolStripMenu_Game.Name = "toolStripMenu_Game";
             this.toolStripMenu_Game.ShortcutKeyDisplayString = "";
@@ -188,6 +190,7 @@
             // 
             this.toolStripMenu_Pause.Enabled = false;
             this.toolStripMenu_Pause.Name = "toolStripMenu_Pause";
+            this.toolStripMenu_Pause.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.toolStripMenu_Pause.Size = new System.Drawing.Size(226, 22);
             this.toolStripMenu_Pause.Text = "&Play";
             this.toolStripMenu_Pause.Click += new System.EventHandler(this.toolStripMenu_Pause_Click);
@@ -218,7 +221,7 @@
             // toolStripMenu_Language
             // 
             this.toolStripMenu_Language.Name = "toolStripMenu_Language";
-            this.toolStripMenu_Language.Size = new System.Drawing.Size(133, 22);
+            this.toolStripMenu_Language.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenu_Language.Text = "&Language";
             this.toolStripMenu_Language.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.Language_DropDownItemClicked);
             // 
@@ -258,6 +261,14 @@
             // tmrCostTime
             // 
             this.tmrCostTime.Tick += new System.EventHandler(this.TmrCostTime_Tick);
+            // 
+            // toolStripMenu_Restore
+            // 
+            this.toolStripMenu_Restore.Name = "toolStripMenu_Restore";
+            this.toolStripMenu_Restore.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.toolStripMenu_Restore.Size = new System.Drawing.Size(226, 22);
+            this.toolStripMenu_Restore.Text = "Restore";
+            this.toolStripMenu_Restore.Click += new System.EventHandler(this.toolStripMenu_Restore_Click);
             // 
             // SnakeGame
             // 
@@ -312,6 +323,7 @@
         private MyControl.UTimer tmrCostTime;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenu_Set;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenu_Language;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenu_Restore;
 
     }
 }
